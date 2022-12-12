@@ -4,51 +4,51 @@
 
 (format t "Hello world!~%")
 
-(defun ADD1 (n)
+(defun add1 (n)
   (+ n 1))
 
-(defun ADD2 (n)
-  (+ (ADD1 n) 1))
+(defun add2 (n)
+  (+ (add1 n) 1))
 
 ;; Exercise 1.4
-(defun SUB1 (n)
+(defun sub1 (n)
   (- n 1))
 
-(defun SUB2 (n)
-  (- (SUB1 n) 1))
+(defun sub2 (n)
+  (- (sub1 n) 1))
 
 ;; Exercise 1.5
-(defun ALTTWOP (n)
-  (EQUAL (SUB2 n) 0))
+(defun alttwop (n)
+  (equal (sub2 n) 0))
 
 ;; Exercise 1.6
-(defun HALF (n)
+(defun half (n)
   (/ n 2))
 
-(defun HALF2 (n)
+(defun half2 (n)
   (* n 0.5))
 
 ;; Exercise 1.7
-(defun MULTI-DIGIT-P (n)
+(defun multi-digit-p (n)
   (> n 9))
 
 ;; Exercise 1.8
 ;; Changes input number's sign.
 
 ;; Exercise 1.9
-(defun TWOMOREP (n1 n2)
-  (EQUAL n1 (ADD2 n2)))
+(defun twomorep (n1 n2)
+  (equal n1 (add2 n2)))
 
 ;; Exercise 1.10
-(defun TWOMOREPP (n1 n2)
-  (EQUAL (SUB2 n1) n2))
+(defun twomorepp (n1 n2)
+  (equal (sub2 n1) n2))
 
 ;; Exercise 1.11
-(defun AVERAGE (n1 n2)
+(defun average (n1 n2)
   (/ (+ n1 n2) 2))
 
 ;; Exercise 1.12
-(defun MORE-THAN-HALF-P (n1 n2)
+(defun more-than-half-p (n1 n2)
   (> n1 (/ n2 2)))
 
 ;; Exercise 1.13
@@ -59,15 +59,16 @@
 ;; NOT by itself isn't a valid input.
 
 ;; Exercise 1.15
-(defun NOT-ONEP (n)
-  (NOT (EQUAL n 1)))
+(defun not-onep (n)
+  (not (equal n 1)))
 
 ;; Exercise 1.16
-(defun NOT-PLUSP (n)
-  (NOT (> n 0)))
+(defun not-plusp (n)
+  (not (> n 0)))
 
 ;; Exercise 1.17
-;; Exercise wants (NOT (EVENP n)), but not that this only holds for integers.
+(defun evenpp (n)
+  (not (oddp n)))
 
 ;; Exercise 1.18
 ;; Whenever the input is -2.
@@ -79,8 +80,8 @@
 ;; Exercise 1.20
 ;; This doesn't transform data into truth values beforehand, but...
 ;; it's probably fine? Yup: anything not NIL is T in Lisp
-(defun XOR (b1 b2)
-  (NOT (EQUAL b1 b2)))
+(defun xor (b1 b2)
+  (not (equal b1 b2)))
 
 ;; Exercise 1.21
 ;; First one increments a predicate output and probably crashes.
@@ -89,7 +90,8 @@
 
 ;; Exercise 1.22
 ;; All predicates are functions since they give unique outputs, but
-;; not vice versa given functions don't always output T/NIL
+;; not vice versa given functions don't always output T/NIL, although...
+;; everything not NIL is T in Lisp.
 
 ;; Exercise 1.23
 ;; NOT and EQUAL/</>
@@ -98,7 +100,7 @@
 ;; The former is a symbol, as is the latter.
 
 ;; Exercise 1.25
-;; Huh? FALSE = crash for me. The answer is probably: because it's a symbol.
+;; Huh? FALSE = crash for me. The answer is probably: because it's a symbol, and not NIL.
 
 ;; Exercise 1.26
 ;; Since anything not NIL is treated as T, I guess the former is technically
