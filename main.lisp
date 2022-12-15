@@ -108,3 +108,16 @@
 
 ;; Exercise 1.27
 ;; (EVENP T), (EVENP 2 2)
+
+;; Exercise 2.1 meh
+
+;; Exercise 2.2
+;; All but: first, third, fourth.
+
+;; Exercise 2.3 meh
+
+;; Exercise 2.4
+;; ((BOWS, ARROWS),(FLOWERS, CHOCOLATES))
+
+;; Exercise 2.5
+;; 6, 3, 4, 4, 5, 6
