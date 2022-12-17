@@ -121,3 +121,34 @@
 
 ;; Exercise 2.5
 ;; 6, 3, 4, 4, 5, 6
+
+;; Exercise 2.6
+;; () = NIL, (()) = (NIL), ((())) = ((NIL)), (() ()) = (NIL NIL),
+;; (() (())) = (NIL (NIL))
+
+;; Exercise 2.7
+;; The FIRST function is fed the output of REST, (IF YOU LIKE GEESE),
+;; giving IF
+
+;; Exercise 2.8
+(defun my-third (l)
+  (first (rest (rest l))))
+
+;; Exercise 2.9
+(defun my-thirdd (l)
+  (second (rest l)))
+
+;; Exercise 2.10
+;; CAR = ((PHONE HOME)), CDR = NIL
+
+;; Exercise 2.11
+;; * *⟶ * *⟶      * *⟶ NIL
+;; ↓     ↓          ↓
+;; A     * *⟶ NIL  * *⟶ NIL
+;;       ↓          ↓
+;;      TOLL        * *⟶ NIL
+;;                  ↓
+;;                 CALL
+
+;; Exercise 2.12
+;; Ugh...
