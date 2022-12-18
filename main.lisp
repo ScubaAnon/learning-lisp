@@ -167,3 +167,36 @@
 
 ;; Exercise 2.17
 ;; POST, (NO BILLS), (POST NO), NIL, ((NO BILLS)), NIL, NIL
+
+;; Exercise 2.18
+(defun cons-make-list (e1 e2)
+  (cons e1 (cons e2 NIL))
+  )
+
+;; Exercise 2.19
+;; (FRED AND WILMA), (FRED (AND WILMA)), (FRED AND WILMA), (NIL), (NIL NIL)
+
+;; Exercise 2.20
+;; (NIL), (T NIL), (T), ((T)), ((IN ONE EAR) (OUT THE OTHER)), ((IN ONE EAR) OUT THE OTHER)
+
+;; Exercise 2.21
+(defun split-nester (e1 e2 e3 e4)
+  (list (list e1 e2) (list e3 e4))
+  )
+
+;; Exercise 2.22
+(defun duo-cons (e1 e2 l)
+  (cons e1 (cons e2 l))
+  )
+
+;; Exercise 2.23
+(defun two-deeper (e)
+  (list (list e))
+  )
+
+(defun two-deeper-cons (e)
+  (cons (cons e NIL) NIL)
+  )
+
+;; Exercise 2.24
+;; CAAADR
