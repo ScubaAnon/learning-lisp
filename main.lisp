@@ -151,4 +151,19 @@
 ;;                 CALL
 
 ;; Exercise 2.12
-;; Ugh...
+;; ka-dih-dih-der, very useful knowledge I'm sure.
+
+;; Exercise 2.13
+;; FUN = CAAAR, IN = CAADR, THE = CADADR, SUN = CAADDR
+
+;; Exercise 2.14
+;; This is annoying enough already.
+
+;; Exercise 2.15
+;; ((E F)), (C D), (B), CADAR, NIL, CAAR, (F), CADADDR
+
+;; Exercise 2.16
+;; List manipulation on the symbol FRED likely results in an error.
+
+;; Exercise 2.17
+;; POST, (NO BILLS), (POST NO), NIL, ((NO BILLS)), NIL, NIL
