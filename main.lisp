@@ -218,4 +218,3 @@
 	(t
 	 (last-cadr (cdr l))))
   )
-;; Had to learn cond, but it works. Warning on "t" though... Probably nothing.
