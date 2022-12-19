@@ -209,7 +209,43 @@
 ;; Exercise 2.28
 ;; Yes. Base case is if cdr of a list is NIL, then we do car. Let's try...
 (defun last-cadr (l)
-  (cond ((equal (cdr l) NIL)
-	 (car l))
-	(t
-	 (last-cadr (cdr l)))))
+  (cond ((equal (cdr l) NIL) (car l))
+	(t (last-cadr (cdr l)))))
+
+;; Exercise 2.29
+(defun unary-add (l)
+  (cons 'x l))
+
+;; Exercise 2.30
+;; Subtracts 2.
+
+;; Exercise 2.31
+(defun unary-zerop (l)
+  (equal l NIL))
+
+;; Exercise 2.32
+(defun unary-greaterp (l1 l2)
+  (> (length l1) (length l2)))
+
+;; 2.33
+;; Complement of unary-zerop. Which means...
+(defun unary-zeropp (l)
+  (not (car l)))
+
+;; 2.34
+;; (cons 'a (cons 'b (cons 'c 'd)))
+
+;; 2.35
+;; * *  ⟶   * *⟶ NIL
+;; ↓         ↓
+;; * *⟶  B  * *⟶ D
+;; ↓         ↓
+;; A         C
+
+;; 2.36
+;; (cons 'a (cons 'b (cons 'c ...)))
+;; When you cons c, you're already done with cons a, which you need.
+(defun cons-circular-list (l)
+  (cons (car l) (cdr l)))
+;; Passing '(x) will just construct the same list with new pointers
+;; from a new cons construct. I think...
