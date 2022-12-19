@@ -200,3 +200,22 @@
 
 ;; Exercise 2.24
 ;; CAAADR
+
+;; Exercise 2.25
+;; Because CONS constructs a cons cell from its inputs. They're related.
+
+;; Exercise 2.26
+;; Former results in: (A B C) ⟶ (B C) ⟶ 2; latter results in an error because CDR only accepts lists.
+
+;; Exercise 2.27
+;; Whenever it has a depth larger than 1.
+
+;; Exercise 2.28
+;; Yes. Base case is if cdr of a list is NIL, then we do car. Let's try...
+(defun last-cadr (l)
+  (cond ((equal (cdr l) NIL)
+	 (car l))
+	(t
+	 (last-cadr (cdr l))))
+  )
+;; Had to learn cond, but it works. Warning on "t" though... Probably nothing.
