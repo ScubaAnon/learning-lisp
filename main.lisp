@@ -181,22 +181,18 @@
 
 ;; Exercise 2.21
 (defun split-nester (e1 e2 e3 e4)
-  (list (list e1 e2) (list e3 e4))
-  )
+  (list (list e1 e2) (list e3 e4)))
 
 ;; Exercise 2.22
 (defun duo-cons (e1 e2 l)
-  (cons e1 (cons e2 l))
-  )
+  (cons e1 (cons e2 l)))
 
 ;; Exercise 2.23
 (defun two-deeper (e)
-  (list (list e))
-  )
+  (list (list e)))
 
 (defun two-deeper-cons (e)
-  (cons (cons e NIL) NIL)
-  )
+  (cons (cons e NIL) NIL))
 
 ;; Exercise 2.24
 ;; CAAADR
@@ -216,5 +212,4 @@
   (cond ((equal (cdr l) NIL)
 	 (car l))
 	(t
-	 (last-cadr (cdr l))))
-  )
+	 (last-cadr (cdr l)))))
