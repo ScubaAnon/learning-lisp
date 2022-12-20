@@ -227,25 +227,84 @@
 (defun unary-greaterp (l1 l2)
   (> (length l1) (length l2)))
 
-;; 2.33
+;; Exercise 2.33
 ;; Complement of unary-zerop. Which means...
 (defun unary-zeropp (l)
   (not (car l)))
 
-;; 2.34
+;; Exercise 2.34
 ;; (cons 'a (cons 'b (cons 'c 'd)))
 
-;; 2.35
+;; Exercise 2.35
 ;; * *  ⟶   * *⟶ NIL
 ;; ↓         ↓
 ;; * *⟶  B  * *⟶ D
 ;; ↓         ↓
 ;; A         C
 
-;; 2.36
+;; Exercise 2.36
 ;; (cons 'a (cons 'b (cons 'c ...)))
 ;; When you cons c, you're already done with cons a, which you need.
 (defun cons-circular-list (l)
   (cons (car l) (cdr l)))
 ;; Passing '(x) will just construct the same list with new pointers
 ;; from a new cons construct. I think...
+
+;; Exercise 3.1
+;; -3 self-evaluates, result of ABS is 3, 3 self-evaluates, result of equal
+;; becomes T, result of not becomes NIL.
+
+;; Exercise 3.2
+;; (/ (+ 8 12) 2)
+
+;; Exercise 3.3
+;; (+ (sqrt 3) (sqrt 4))
+
+;; Exercise 3.4
+;; ⟶ (- 8 2)
+;; |       8 self-evaluates
+;; |       2 self-evaluates
+;; ⟶ Enter - with inputs 8 and 2
+;; |
+;; ⟶ Result of - is 6
+
+;; ⟶ (not (oddp 4))
+;; | ⟶ (oddp 4)
+;; | |      4 self-evaluates
+;; | ⟶ Enter oddp with input 4
+;; | |
+;; | ⟶ Result of oddp is nil
+;; ⟶ Enter not with input nil
+;; |
+;; ⟶ Result of not is t
+
+;; ⟶ (> (* 2 5) 9)
+;; | ⟶ (* 2 5)
+;; | |      2 self-evaluates
+;; | |      5 self-evaluates
+;; | ⟶ Enter * with inputs 2 and 5
+;; | |
+;; | ⟶ Result of * is 10
+;; |      9 self-evaluates
+;; ⟶ Enter > with inputs 10 and 9
+;; |
+;; ⟶ Result of > is t
+
+;; ⟶ (not (equal 5 (+ 1 4)))
+;; | ⟶ (equal 5 5)
+;; | | ⟶ (+ 1 4)
+;; | | |      1 self-evaluates
+;; | | |      4 self-evaluates
+;; | | ⟶ Enter + with 1 and 4
+;; | | |
+;; | | ⟶ Result of + is 5
+;; | ⟶ (equal 5 5)
+;; | |      5 self-evaluates
+;; | |      5 self-evaluates (does this second one happen?)
+;; | ⟶ Enter equal with inputs 5 and 5
+;; | |
+;; | ⟶ Result of equal is t
+;; ⟶ Enter not with input t
+;; |
+;; ⟶ Result of not is nil
+
