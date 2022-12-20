@@ -308,3 +308,21 @@
 ;; |
 ;; ⟶ Result of not is nil
 
+;; Exercise 3.5
+(defun half (n) (/ n 2))
+(defun cube (n) (* n (* n n)))
+(defun onemorep (n1 n2) (equal (- n1 1) n2))
+
+;; Exercise 3.6
+(defun pythag (x y)
+  (sqrt (+
+	 (expt x x)
+	 (* y y))))
+
+;; Exercise 3.7
+(defun kilometers-per-liter (initial-odometer-reading final-odometer-reading liters-consumed)
+  (/ (- final-odometer-reading initial-odometer-reading) liters-consumed))
+;; Imagine not using the metric system.
+
+;; Exercise 3.8
+;; 2 ⟶ * inside big box where second input to * is 2, ⟶ 4. Box notation is deprecated.
