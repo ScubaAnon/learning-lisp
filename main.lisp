@@ -348,3 +348,25 @@
 
 ;; Exercise 3.14
 ;; Variables aren't used. (hello callee this is caller calling)
+
+;; Exercise 3.15
+;; As a variable and as a self-evaluating symbol. (aardvark is a word), (word is a word).
+
+;; Exercise 3.16
+;; (moe (moe larry) larry larry). Style warning on unused variable moe.
+
+;; Exercise 3.17
+;; Everything not nil evaluates to t. There's a conflict as they're already defined, and self-evaluates.
+
+;; Exercise 3.18
+;; Terse and expressive.
+
+;; Exercise 3.19
+;; (grapes of wrath), (t is not nil), list, moose. Last one fails as quote should be outside,
+;; or a valid function call should be made. First element is treated as a function.
+
+;; Exercise 3.20
+;; (bear dancing), too many arguments error, (nil zowie), (second first)
+
+;; Exercise 3.21
+;; First one doesn't use its arguments. Second one has two bodies. Third one has function arguments.
