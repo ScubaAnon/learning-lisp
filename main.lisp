@@ -326,3 +326,25 @@
 
 ;; Exercise 3.8
 ;; 2 ⟶ * inside big box where second input to * is 2, ⟶ 4. Box notation is deprecated.
+
+;; Exercise 3.9
+;; (5 6 7), (5 list 6 7), (3 from 9 gives 6), 6, (is short for construct)
+
+;; Exercise 3.10
+;; Missing quote on '(the quick brown fox), missing quotes on symbols 'and and 'is,
+;; inapporopiate quote on (length ()), missing quote on '(seymour marvin), same.
+
+;; Exercise 3.11
+(defun longer-than (l1 l2)
+  (> (length l1) (length l2)))
+
+;; Exercise 3.12
+(defun addlength (l)
+  (cons (length l) l))
+;; (4 3 a b c)
+
+;; Exercise 3.13
+;; Two. caller and callee. (hello wanda this is fred calling)
+
+;; Exercise 3.14
+;; Variables aren't used. (hello callee this is caller calling)
