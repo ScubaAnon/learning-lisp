@@ -370,3 +370,27 @@
 
 ;; Exercise 3.21
 ;; First one doesn't use its arguments. Second one has two bodies. Third one has function arguments.
+
+;; Exercise 3.22 Mostly irrelevant in my case.
+(defun myfun (e1 e2)
+  (cons (cons e1 nil) (cons e2 nil)))
+
+(defun firstp (e l)
+  (equal e (first l)))
+
+(defun mid-add1 (l)
+  (cons (car l) (cons (add1 (cadr l)) (cddr l))))
+
+(defun f-to-c (n)
+  (* 5 (/ (- n 32) 9)))
+;; Adds 1 to t or nil, which is highly illegal.
+
+;; Exercise 3.23
+;; (lambda (x) (* x 2)), (lambda (x) (* x x)), (lambda (x y) (equal (- 1 x) (y)))
+
+;; Exercise 3.24
+;; alpha (+ x 2) evaluates to 5, charlie (- 3 1) -- 3 coming from alpha -- evaluates to 2,
+;; then finally bravo (* 5 2) evaluates to 10. No diagram please, too much work.
+
+;; Exercise 3.25
+;; (cons t nil), (t), undefined symbol t, (t), nil, (eval nil), nil.
