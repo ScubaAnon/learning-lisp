@@ -394,3 +394,83 @@
 
 ;; Exercise 3.25
 ;; (cons t nil), (t), undefined symbol t, (t), nil, (eval nil), nil.
+
+;; Exercise 4.1
+;; Odd/even functions are prime candidates for bitwise manipulation. Just for fun.
+(defun bitwise-oddp (n)
+  (equal (subseq (make-binary n) (- (length (make-binary n)) 1)) "1"))
+
+(defun make-binary (e)
+  (format nil "~b" e))
+
+(defun make-even (n)
+  (if (bitwise-oddp n) (+ 1 n) n))
+
+;; Exercise 4.2
+(defun further (n)
+  (if (< n 0) (- n 1) (+ n 1)))
+
+;; Exercise 4.3
+(defun my-not (e) (if e nil t))
+
+;; Exercise 4.4
+(defun ordered (n1 n2)
+  (if (> n1 n2) (list n2 n1) (list n1 n2)))
+
+;; Exercise 4.5
+;; 3, 2, 1
+
+;; Exercise 4.6
+(defun my-abs (n)
+  (cond ((< n 0) (- n))
+	(t n)))
+
+;; Exercise 4.7
+;; First is incorrect: "(symbolp x) 'symbol" not encapsulated, second one is fine.
+;; Third is incorrect: "('symbol)" doesn't need parenthesis, same with "(t 'not-a-symbol)"
+
+;; Exercise 4.8
+(defun emphasize (l)
+  (cond ((equal (first l) 'good) (cons 'great (rest l)))
+	 ((equal (first l) 'bad) (cons 'awful (rest l)))
+	 (t (cons 'very l)))))
+
+;; Exercise 4.9
+;; As written it'll just return whatever is passed to it.
+(defun make-odd (n)
+  (cond ((oddp n) n)
+	(t (+ n 1))))
+
+;; Exercise 4.10
+;; Bitwise opportunity: string length. But eh.
+(defun constrain (n min max)
+  (cond ((< n min) min)
+	((> n max) max)
+	(t n)))
+
+(defun constrain-nested (n min max)
+  (if (< n min) min (if (> n max) max n)))
+
+;; Exercise 4.11
+;; Obviously invalid number of argument for (firstzero 3 0 4)
+(defun firstzero (l)
+  (cond ((equal (car l) 0) "first")
+	((equal (cadr l) 0) "second")
+	((equal (caddr l) 0) "third")
+	(t "none")))
+
+;; Exercise 4.12
+;; I... I couldn't stop myself...
+(defun cycle (n)
+  (cond ((< (abs n) 99) (+ n 1))
+	((> (abs n) 98) (cycle (- n 99)))))
+
+(defun do-cycle (n)
+  (if (> n -1) (cons (cycle n) (do-cycle (- n 1)))))
+
+;; Exercise 4.13
+(defun howcompute (n1 n2 result)
+  (cond ((equal (+ n1 n2) result) "Sum")
+	((equal (* n1 n2) result) "Product")
+	((equal (/ n1 n2) result) "Rest")
+	(t "Beats me, anon.")))
