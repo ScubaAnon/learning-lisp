@@ -462,11 +462,12 @@
 ;; Exercise 4.12
 ;; I... I couldn't stop myself...
 (defun cycle (n)
-  (cond ((< (abs n) 99) (+ n 1))
-	((> (abs n) 98) (cycle (- n 99)))))
+  (cond ((< n 99) (+ n 1))
+	((> n 98) (cycle (- n 99)))))
 
 (defun do-cycle (n)
-  (if (> n -1) (cons (cycle n) (do-cycle (- n 1)))))
+  (if (not (equal n 0)) (cons (cycle (abs n))
+			      (if (> n 0) (do-cycle (- n 1)) (do-cycle (+ n 1))))))
 
 ;; Exercise 4.13
 (defun howcompute (n1 n2 result)
