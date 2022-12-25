@@ -466,8 +466,8 @@
 	((> n 98) (cycle (- n 99)))))
 
 (defun do-cycle (n)
-  (if (not (equal n 0)) (cons (cycle (abs n))
-			      (if (> n 0) (do-cycle (- n 1)) (do-cycle (+ n 1))))))
+  (if (not (equal n 0))
+      (cons (cycle (abs n)) (if (> n 0) (do-cycle (- n 1)) (do-cycle (+ n 1)))) (cons 1 nil)))
 
 ;; Exercise 4.13
 (defun howcompute (n1 n2 result)
