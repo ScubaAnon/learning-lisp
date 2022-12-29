@@ -466,9 +466,9 @@
 	((> n 98) (cycle (- n 99)))))
 
 (defun do-cycle (n)
-  (if (not (equal n 0))
-      (cons (cycle (abs n)) (if (> n 0) (do-cycle (- n 1)) (do-cycle (+ n 1))))
-    (cons 1 nil)))
+(if (not (equal n 0))
+    (cons (cycle (abs n)) (if (> n 0) (do-cycle (- n 1)) (do-cycle (+ n 1))))
+  (cons 1 nil)))
 
 ;; Exercise 4.13
 (defun howcompute (n1 n2 result)
@@ -476,3 +476,161 @@
 	((equal (* n1 n2) result) "Product")
 	((equal (/ n1 n2) result) "Rest")
 	(t "Beats me, anon.")))
+
+;; Exercise 4.14
+;; foe, fee, foe, nil, yes, t
+
+;; Exercise 4.15
+(defun geq (n1 n2)
+  (or (equal n1 n2) (> n1 n2)))
+
+;; Exercise 4.16
+(defun squareDoubleDiv (n)
+  (cond ((< n 0) (* n n))
+	((and (oddp n) (< n 0)) (* n 2))
+	(t (/ n 2))))
+;; Apparently (* n 2) is unreachable code... huh?
+
+;; Exercise 4.17
+(defun childCheck (e1 e2)
+  (or (and (or (equal e1 'boy) (equal e1 'girl)) (equal e2 'child))
+      (and (or (equal e1 'man) (equal e1 'woman)) (equal e2 'adult))))
+
+;; Exercise 4.18
+(defun playRPS (e1 e2)
+  (cond ((or
+	  (and (equal e1 'rock) (equal e2 'scissors))
+	  (and (equal e1 'paper) (equal e2 'rock)))
+	 (and (equal e1 'scissors) (equal e2 'paper)) 'first-wins)
+	((and
+	  (not (or (equal e1 'rock) (equal e1 'paper) (equal e1 'scissors)))
+	  (not (or (equal e2 'rock) (equal e2 'paper) (equal e2 'scissors)))) 'wtf-are-you-guys-doing)
+	((equal e1 e2) 'tie)
+	((not (or (equal e1 'rock) (equal e1 'paper) (equal e1 'scissors))) 'second-wins)
+	((not (or (equal e2 'rock) (equal e2 'paper) (equal e2 'scissors))) 'first-wins)
+	(t 'second-wins)))
+;; For some reason (playRPS 'scissors 'paper) returns second-wins, the last case.
+;; Line 504 looks fine though...
+
+;; Exercise 4.19
+;; (cond ((equal x 'x) t) ((equal y 'y) t) ((equal z 'z) t) ((equal w 'w) t))
+;; (if (equal x x') t (if (equal y y') t (if (equal z 'z) t (if (equal w 'w) t))))
+
+;; Exercise 4.20
+(defun compareIfs (x y)
+  (if (equal x y) 'numbers-are-the-same
+      (if (< x y) 'first-is-smaller
+	  (if (> x y) 'first-is-bigger))))
+
+(defun compareAndOr (x y)
+  (or (and (equal x y) 'numbers-are-the-same)
+      (and (< x y) 'first-is-smaller)
+      (and (> x y) 'first-is-bigger)))
+
+;; Exercise 4.21
+(defun gTestCond (x y)
+  (cond ((> x y) t) ((zerop x) t) ((zerop y) t)))
+
+(defun gTestIfs (x y)
+  (if (> x y) t (if (zerop x) t (if (zerop y) t))))
+
+;; Exercise 4.22
+(defun boilingp (temp scale)
+  (cond ((equal scale 'celsius) (> temp 100))
+	((equal scale 'fahrenheit) (> temp 212))))
+
+(defun boilingpAndOr (temp scale)
+  (or (and (equal scale 'celsius) (> temp 100))
+      (and (equal scale 'fahrenheit) (> temp 212))))
+
+(defun boilingpIfs (temp scale)
+  (if (equal scale 'celsius) (> temp 100) (if (equal scale 'fahrenheit) (> temp 212))))
+
+;; Exercise 4.23
+;; Assume n = number of where-is cond clauses. where-is-2 = n - 1. where-is-3 = (n - n) + 1.
+
+;; Exercise 4.24
+;; To control/check inputs.
+
+;; Exercise 4.25
+;; eh, doesn't afraid of anything and simply returns nil if test fails.
+
+;; Exercise 4.26
+;; Because you can nest ifs: (if t t (if t t (...)))
+
+;; Exercise 4.27
+;; I'm guessing nil. Edit: I was right.
+
+;; Exercise 4.28
+;; We want to return the result of true-part... Or rather, return nil. and can return nil,
+;; but then it always will... Close: (or (and test (or true-part false-part))). But returns
+;; nil when test case fails, when we want foo... Am I getting trolled? Edit: looked at the
+;; answer, and now I feel stupid. (or (and test true-part) (and (not test) false-part))
+
+;; Exercise 4.29
+(defun logicalAndIf (x y)
+  (if x (if y t)))
+
+(defun logicalAndCond (x y)
+  (cond (x (cond (y t)))))
+
+;; Exercise 4.30
+(defun logicalOr (x y)
+  (if x t (if y t)))
+
+(defun logicalOrAlt (x y)
+  (or (and x t) (and y t)))
+
+;; Exercise 4.31
+;; As much a boolean as the previous functions here. No need for a logical-not function.
+
+;; Exercise 4.32
+;; | x | y | or |
+;; | t | t | t  |
+;; | t |nil| t  |
+;; |nil| t | t  |
+;; |nil|nil| nil|
+
+;; Exercise 4.33 and 4.34
+;; 2^3 = 8
+;; Pretty sure this is the most logical interpretation...
+;; The book doesn't care about the truth value of y, but then why does z matter? Mine's better.
+;; | x | y | z | if |
+;; | t | t | t | nil|
+;; | t | t |nil| t  |
+;; | t |nil| t | nil|
+;; | t |nil|nil| nil|
+;; |nil| t | t | nil|
+;; |nil| t |nil| nil|
+;; |nil|nil| t | t  |
+;; |nil|nil|nil| nil|
+
+;; Exercise 4.35
+;; (or (and x t) (and y t))? What three input or? Was I supposed to write it?
+(defun deMorganAnd (x y) (not (or (not x) (not y) nil)))
+(defun deMorganOr (x y) (not (and (not (or x nil)) (not (or y nil)))))
+
+;; Exercise 4.36
+;; | x | y |nand|
+;; | t | t | nil|
+;; | t |nil| t  |
+;; |nil| t | t  |
+;; |nil|nil| t  |
+
+;; Exercise 4.37
+;; The and one was a nightmare. Mostly because I thought nand was true iff both x y were nil...
+;; or came immediately when trying to construct the and.
+(defun nand (x y) (not (and x y)))
+(defun nandAnd (x y) (nand (nand (nand (nand x nil) (nand y t)) (nand (nand x t) (nand y nil))) t))
+(defun nandOr (x y) (nand (nand x t) (nand y t)))
+
+;; Exercise 4.38
+(defun notOr (x y) (not (or (and x t) (and y t))))
+(defun notOrNot (x) (notOr x x))
+;; Found these quick by simply turning key nil/t to their opposite.
+(defun notOrAnd (x y) (notOr (notOr x nil) (notOr y nil)))
+(defun notOrOr (x y) (notOr (notOr (notOr (notOr x nil) (notOr y t)) (notOr (notOr x t) (notOr y nil))) nil))
+
+;; Exercise 4.39
+;; In logic we have things called conjunctive/disjunctive normal forms, but both contain... both.
+;; So I'm going to guess no.
