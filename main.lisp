@@ -634,3 +634,21 @@
 ;; Exercise 4.39
 ;; In logic we have things called conjunctive/disjunctive normal forms, but both contain... both.
 ;; So I'm going to guess no.
+
+;; Exercise 5.1
+(defun goodStyle (p)
+  (let ((q (+ p 5)))
+  (list 'result 'is q)))
+
+;; Exercise 5.2
+;; The result of variable assignments. The changing value as opposed to the returned value itself.
+
+;; Exercise 5.3
+;; Local variables are only reachable within their defined lexical context. Global are... global.
+
+;; Exercise 5.4
+;; Otherwise you wouldn't be able to name a variable since its first argument would be evaluated.
+
+;; Exercise 5.5
+;; I guess technically, but the former implies no dependencies between local variables... but
+;; does that matter with only one local variable? The latter would likely cause confusion.
