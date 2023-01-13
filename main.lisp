@@ -652,3 +652,60 @@
 ;; Exercise 5.5
 ;; I guess technically, but the former implies no dependencies between local variables... but
 ;; does that matter with only one local variable? The latter would likely cause confusion.
+
+;;; Exercise 5.6
+;; a.
+(defun throwDie nil
+  "Returns a random number between 1 and 6."
+  (+ (random 6) 1))
+;; b.
+(defun throwDice nil
+  "Returns a list of two throwDie, hereinafter a throw."
+  (list (throwDie) (throwDie)))
+;; c.
+(defun snakeEyesP (throw)
+  "Checks if a throw contains two ones."
+  (and (equal 1 (car throw)) (equal (car throw) (cadr throw)) t))
+(defun boxcarsP (throw)
+  "Checks if a throw contains two sixes."
+  (and (equal 6 (car throw)) (equal (car throw) (cadr throw)) t))
+;; d. It's possible instantLossP is meant to check individual die too, but it wasn't specified...
+(defun instantWinP (throw)
+  "Checks if a throw is an instant win, e.g. result equal to 7 or 11."
+  (or (equal 7 (reduce '+ throw))
+    (equal 11 (reduce '+ throw))))
+(defun instantLossP (throw)
+  "Checks if a throw is an instant loss, e.g. reslt equal to 2, 3 or 12."
+  (or (equal 2 (reduce '+ throw))
+      (equal 3 (reduce '+ throw))
+      (equal 12 (reduce '+ throw))))
+;; e.
+(defun sayThrow (throw)
+  "Returns either the sum of a throw or the symbols SNAKE-EYES or BOXCARS if sum is equal to 2 or 12"
+  (cond ((snakeEyesP throw) 'SNAKE-EYES)
+	((boxcarsP throw) 'BOXCARS)
+	(t (reduce '+ throw))))
+;; f. Stole the flatten function online because I'm committed to this solution.
+(defun flatten (x &optional stack out)
+  "Returns a list with the elements of all sublists on the top level."
+  (cond ((consp x) (flatten (rest x) (cons (first x) stack) out))
+        (x         (flatten (first stack) (rest stack) (cons x out)))
+        (stack     (flatten (first stack) (rest stack) out))
+        (t out)))
+
+(defun craps nil
+  "Plays a dumb dice game."
+  (flatten (let ((throw (throwDice)))
+    (list 'Throw (car throw) 'and (cadr throw) '-- (sayThrow throw) '--
+		   (cond ((equal 'SNAKE-EYES (sayThrow throw)) (list 'You 'lose))
+			 ((equal 'BOXCARS (sayThrow throw)) (list 'You 'win))
+			 (t (list 'Your 'point 'is (sayThrow throw))))))))
+;; g. Surely I can reduce code duplication here... another time? Not required anyway. Reused
+;;    last-cadr from way back on first attempt, but realized I was doing more than necessary.
+(defun tryForPoint (n)
+  "Simulates a continuation of craps by playing for a point. 7 results in a loss."
+  (flatten (let ((throw (throwDice)))
+    (list 'Throw (car throw) 'and (cadr throw) '-- (sayThrow throw) '--
+		   (cond ((equal n (reduce '+ throw)) (list 'You 'win))
+			 ((equal 7 (reduce '+ throw)) (list 'You 'lose))
+			 (t (list 'Throw 'again)))))))
