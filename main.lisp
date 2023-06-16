@@ -709,3 +709,16 @@
 		   (cond ((equal n (reduce '+ throw)) (list 'You 'win))
 			 ((equal 7 (reduce '+ throw)) (list 'You 'lose))
 			 (t (list 'Throw 'again)))))))
+
+;; Exercise 6.1
+;; This is because nthcdr returns nil, and the car of nil is nil, etc.
+
+;; Exercise 6.2
+;; An error since the symbol D returned by nthcdr is not a list, therefore car cannot operate on it.
+;; If it was a list and not a symbol, it would return the head of that list.
+
+;; Exercise 6.3
+;; The input list (the first element is also the last in a singelton list).
+
+;; Exercise 6.4
+;; The same as above, the input list (parantheses intact).
