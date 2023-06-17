@@ -722,3 +722,31 @@
 
 ;; Exercise 6.4
 ;; The same as above, the input list (parantheses intact).
+
+;; Exercise 6.5
+;; (setf line '(Roses are red))
+;; (RED ARE ROSES), (RED), ARE, (ROSES ARE RED), (ROSES ARE RED ROSES), (RED ROSES ARE RED),
+;; (ROSES (RED)), ((RED) ROSES ARE RED), (ROSES RED), (ROSES ARE RED VIOLETS ARE BLUE).
+
+;; Exercise 6.6
+(defun lastElement (l) (car (last l)))
+(defun lastElementReverse (l) (car (reverse l)))
+(defun lastElementNthLength (l) (nth (- (length l) 1) l))
+
+;; Exercise 6.7
+(defun nextToLast (l) (cadr (reverse l)))
+(defun nextToLastNth (l) (nth (- (length l) 2) l))
+
+;; Exercise 6.8 - Weird function name
+;; Efficieny is for nerds.
+(defun myButLast (l) (reverse (cdr (reverse l))))
+
+;; Exercise 6.9
+;; We reverse the list, take the last element (first of the original), then unlist the result
+;; with first. A very roundabout way of doing car.
+
+;; Exercise 6.10
+(defun palindromeP (l) (equal l (reverse l)))
+
+;; Exercise 6.11 - I should try to write one that's of equal length (iff possible)
+(defun makePalindrome (l) (append l (reverse l)))
