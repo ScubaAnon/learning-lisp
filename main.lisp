@@ -750,3 +750,37 @@
 
 ;; Exercise 6.11 - I should try to write one that's of equal length (iff possible)
 (defun makePalindrome (l) (append l (reverse l)))
+
+;; Exercise 6.12
+;; Going by how the other functions in this chapter works, it copies the sublist
+;; it returns.
+
+;; Exercise 6.13
+;; It should be NIL or skill issues.
+
+;; Exercise 6.14
+;; The set itself.
+
+;; Exercise 6.15
+;; Isn't a sublist a "true value"? So we're writing member using member?
+;; Took a peek at the answer. Pretty much.
+(defun containsArticleP (sent) (intersection sent '(the a an)))
+(defun containsArticleMemberP (sent)
+  (or (member 'the sent)
+      (member 'a sent)
+      (member 'an sent)))
+;; This function is identical to the answer, but doesn't work. Weird.
+;; Undefined function error.
+(defun containArticleAndP (sent)
+  (not (and (not (member 'the sent))
+	    (not (member 'a sent))
+	    (not (member 'an sent)))))
+
+;; Exercise 6.16
+;; The set itself.
+
+;; Exercise 6.17
+;; The set itself.
+
+;; Exercise 6.18
+(defun addVowels (letters) (union letters '(a e i o u)))
