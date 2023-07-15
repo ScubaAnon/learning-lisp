@@ -784,3 +784,37 @@
 
 ;; Exercise 6.18
 (defun addVowels (letters) (union letters '(a e i o u)))
+
+;; Exercise 6.19
+;; In set theory, set difference with the empty set returns the same set, so
+;; I would expect the same here. After all, NIL has no elements, so there's
+;; nothing to remove.
+
+;; Exercise 6.20
+;; It would copy the first input to construct a new list based upon the
+;; second input. The second input lists elements to be removed, so there
+;; would not be any need to copy it, even if that element isn't found in the
+;; first input.
+
+;; Exercise 6.21 - Oddly formulated exercise, but I think they had the
+;; following in mind.
+(defun mySubsetP (x y)
+  "Accomplishes the same as SUBSETP because reasons"
+  (cond ((equal (set-difference y x) nil) t)
+        (t nil)))
+
+;; Exercise 6.22
+;; (no soap radio water), a, (soap), nil, a, (water), nil
+
+;; Exercise 6.23
+;; length
+
+;; Exercise 6.24
+(defun setEqual (x y)
+  "Returns T if both sets are equal."
+  (cond ((and (subsetp x y) (subsetp y x)) t)))
+
+;; Exercise 6.25
+(defun properSubsetP (x y)
+  "Returns T if x is a proper subset of y"
+  (cond ((and (subsetp x y) (not (subsetp y x))) t)))
