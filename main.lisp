@@ -752,8 +752,7 @@
 (defun makePalindrome (l) (append l (reverse l)))
 
 ;; Exercise 6.12
-;; Going by how the other functions in this chapter works, it copies the sublist
-;; it returns.
+;; Going by how the other functions in this chapter works, it copies the sublist it returns.
 
 ;; Exercise 6.13
 ;; It should be NIL or skill issues.
@@ -769,8 +768,7 @@
   (or (member 'the sent)
       (member 'a sent)
       (member 'an sent)))
-;; This function is identical to the answer, but doesn't work. Weird.
-;; Undefined function error.
+;; This function is identical to the answer, but doesn't work. Weird. Undefined function error.
 (defun containArticleAndP (sent)
   (not (and (not (member 'the sent))
 	    (not (member 'a sent))
@@ -786,18 +784,15 @@
 (defun addVowels (letters) (union letters '(a e i o u)))
 
 ;; Exercise 6.19
-;; In set theory, set difference with the empty set returns the same set, so
-;; I would expect the same here. After all, NIL has no elements, so there's
-;; nothing to remove.
+;; In set theory, set difference with the empty set returns the same set, so I would expect the
+;; same here. After all, NIL has no elements, so there's nothing to remove.
 
 ;; Exercise 6.20
-;; It would copy the first input to construct a new list based upon the
-;; second input. The second input lists elements to be removed, so there
-;; would not be any need to copy it, even if that element isn't found in the
-;; first input.
+;; It would copy the first input to construct a new list based upon the second input. The second
+;; input lists elements to be removed, so there would not be any need to copy it, even if that
+;; element isn't found in the first input.
 
-;; Exercise 6.21 - Oddly formulated exercise, but I think they had the
-;; following in mind.
+;; Exercise 6.21 - Oddly formulated exercise, but I think they had the following in mind.
 (defun mySubsetP (x y)
   "Accomplishes the same as SUBSETP because reasons"
   (cond ((equal (set-difference y x) nil) t)
@@ -818,3 +813,88 @@
 (defun properSubsetP (x y)
   "Returns T if x is a proper subset of y"
   (cond ((and (subsetp x y) (not (subsetp y x))) t)))
+
+;; Exercise 6.26
+;; a.
+(defun rightSide (l)
+  (cdr (member '-vs- l)))
+;; b.
+(defun leftSideDumb (l)
+  (cdr (member '-vs- (reverse l))))
+;; Didn't like the above. Also, hints are OP in this assignment.
+(defun leftSide (l)
+  (leftSideHelper l nil))
+(defun leftSideHelper (l l2) ; could avoid this function with lambda. Meh.
+  (cond ((equal (car l) '-vs-) l2)
+	((car l) (leftSideHelper (cdr l) (cons (car l) l2)))
+	(t nil)))
+;; c.
+(defun countCommon (l)
+  (length (intersection (leftside l) (rightside l))))
+;; d. Misunderstood and wrote a better function. Cons'd "common features" after realizing.
+(defun compare (l)
+  (cons (countCommon l) (cons 'common (cons 'features (intersection (leftSide l) (rightside l))))))
+;; e. Yup.
+
+;; 6.27
+;; It's been argued earlier that anything not nil can be seen as t, so why not?
+
+;; 6.28
+;; (banana . fruit), (apple . fruit), (lettuce . veggie), (celery . veggie)
+
+;; 6.29
+;; length again?
+
+;; 6.30
+(defvar books
+  '((1984                    . George-Orwell)
+    (Brave-New-World         . Aldous-Huxley)
+    (The-Silmarillion        . John-Ronald-Reuel-Tolkien)
+    (Consciousness-Explained . Daniel-Dennett)
+    (The-Extended-Phenotype  . Richard-Dawkins)))
+
+;; 6.31
+(defun whoWrote (title)
+  (cdr (assoc title books)))
+
+;; 6.32
+;; Reverse will only do so for the top level, so I assume no change.
+
+;; 6.33
+;; Just use car instead of cdr? Nope, guess we'll need to use rassoc instead, or reverse
+;; the dot pairs in the table. Ok, for some reason the difference of assoc/rassoc first
+;; clicked now. Was sure I saw it working both ways in examples earlier...
+
+;; 6.34
+;; Have the state be the key, so: (pennsylvania pittsburgh johnstown)
+
+;; 6.35
+;; Skipping this at it seems very trivial: ((sleep . eat) (eat . wait) ...).
+
+;; 6.36
+;; Quite the brainteaser despite immediately knowing what to do. Doesn't handle empty/
+;; singleton lists though, but that's a simple check.
+(defun swapFirstLast (l)
+  (cons (car (reverse l))
+	(reverse (cons (car l)
+		       (cdr (reverse (cdr l)))))))
+
+;; 6.37
+(defun rotateRight (l)
+  (cons (car (reverse l)) (reverse (cdr (reverse l)))))
+(defun rotateLeft (l)
+  (reverse (cons (car l) (reverse (cdr l)))))
+
+;; 6.38
+;; Any sets that are equivalent will yield symmetric results, and any sets which are not
+;; equivalent will not be symmetric. This seems extremely obvious.
+
+;; 6.39
+;; Append.
+
+;; 6.40
+;; This seems silly, but (checked answer, it's identical):
+;; '((a b c d)
+;;   (b c d)
+;;   (c d)
+;;   (d))
