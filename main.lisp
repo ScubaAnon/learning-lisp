@@ -836,16 +836,16 @@
   (cons (countCommon l) (cons 'common (cons 'features (intersection (leftSide l) (rightside l))))))
 ;; e. Yup.
 
-;; 6.27
+;; Exercise 6.27
 ;; It's been argued earlier that anything not nil can be seen as t, so why not?
 
-;; 6.28
+;; Exercise 6.28
 ;; (banana . fruit), (apple . fruit), (lettuce . veggie), (celery . veggie)
 
-;; 6.29
+;; Exercise 6.29
 ;; length again?
 
-;; 6.30
+;; Exercise 6.30
 (defvar books
   '((1984                    . George-Orwell)
     (Brave-New-World         . Aldous-Huxley)
@@ -853,25 +853,25 @@
     (Consciousness-Explained . Daniel-Dennett)
     (The-Extended-Phenotype  . Richard-Dawkins)))
 
-;; 6.31
+;; Exercise 6.31
 (defun whoWrote (title)
   (cdr (assoc title books)))
 
-;; 6.32
+;; Exercise 6.32
 ;; Reverse will only do so for the top level, so I assume no change.
 
-;; 6.33
+;; Exercise 6.33
 ;; Just use car instead of cdr? Nope, guess we'll need to use rassoc instead, or reverse
 ;; the dot pairs in the table. Ok, for some reason the difference of assoc/rassoc first
 ;; clicked now. Was sure I saw it working both ways in examples earlier...
 
-;; 6.34
+;; Exercise 6.34
 ;; Have the state be the key, so: (pennsylvania pittsburgh johnstown)
 
-;; 6.35
+;; Exercise 6.35
 ;; Skipping this at it seems very trivial: ((sleep . eat) (eat . wait) ...).
 
-;; 6.36
+;; Exercise 6.36
 ;; Quite the brainteaser despite immediately knowing what to do. Doesn't handle empty/
 ;; singleton lists though, but that's a simple check.
 (defun swapFirstLast (l)
@@ -879,22 +879,57 @@
 	(reverse (cons (car l)
 		       (cdr (reverse (cdr l)))))))
 
-;; 6.37
+;; Exercise 6.37
 (defun rotateRight (l)
   (cons (car (reverse l)) (reverse (cdr (reverse l)))))
 (defun rotateLeft (l)
   (reverse (cons (car l) (reverse (cdr l)))))
 
-;; 6.38
+;; Exercise 6.38
 ;; Any sets that are equivalent will yield symmetric results, and any sets which are not
 ;; equivalent will not be symmetric. This seems extremely obvious.
 
-;; 6.39
+;; Exercise 6.39
 ;; Append.
 
-;; 6.40
+;; Exercise 6.40
 ;; This seems silly, but (checked answer, it's identical):
 ;; '((a b c d)
 ;;   (b c d)
 ;;   (c d)
 ;;   (d))
+
+;; Exercise 6.41
+(defvar rooms
+  '((living-room        (north front-stairs)
+                        (south dining-room)
+                        (east kitchen))
+    
+    (upstairs-bedroom   (west library)
+                        (south front-stairs))
+    
+    (dining-room        (north living-room)
+                        (east pantry)
+                        (west downstairs-bedroom))
+    
+    (kitchen            (west living-room)
+                        (south pantry))
+    
+    (pantry             (north kitchen)
+                        (west dining-room))
+
+    (downstairs-bedroom (north back-stairs)
+                        (east dining-room))
+
+    (back-stairs        (south downstairs-bedroom)
+                        (north library))
+    
+    (front-stairs       (north upstairs-bedroom)
+                        (south living-room))
+
+    (library (east upstairs-bedroom)
+     (south back-stairs))))
+;; a.
+(defun choices (room)
+  (cdr (assoc room rooms)))
+;; b.
