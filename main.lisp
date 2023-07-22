@@ -931,5 +931,44 @@
      (south back-stairs))))
 ;; a.
 (defun choices (room)
+  "Show available movement choices given a room."
   (cdr (assoc room rooms)))
 ;; b.
+(defun look (direction room)
+  "Provide the room given a direction from a room."
+  (car (cdr (assoc direction (choices room)))))
+;; c.
+(defvar loc 'pantry)
+(defun setRobbieLocation (place)
+  "Moves Robbie to PLACE by setting the variable LOC."
+  (setf loc place))
+;; d.
+(defun howManyChoices ()
+  "Provides the number of choices from current room."
+  (length (choices loc)))
+;; e.
+(defun upstairsP (room)
+  "Returns T if the room is either the library or upstairs-bedroom."
+  (cond ((or (equal 'library room) (equal 'upstairs-bedroom room)) 't)
+	(t nil)))
+(defun onStairsP (room)
+  "Returns T if the room is on the stairs."
+  (cond ((or (equal 'front-stairs room) (equal 'back-stairs room)) t)
+	(t nil)))
+;; f.
+;; flatten makes a return. Something tells me I should be able to these assignments without
+;; it. Just checked book answer on craps function from earlier. Yup. Append is the answer.
+(defun where ()
+  "Gives a full description of where Robbie is."
+  (flatten (let ((result
+		 (cond ((upstairsP loc) '(upstairs in the))
+		       ((onStairsP loc) '(on the))
+		       (t '(downstairs in the)))))
+	     (list 'Robbie 'is result loc))))
+;; g.
+(defun move (direction)
+  (cond ((not (look direction loc)) '(Ouch! Robbie hit the wall and died!))
+	((setf loc (look direction loc)) (where))))
+;; h.
+;; Movies: West (dining-room), West (downstairs-bedroom), North (back-stairs), North (library),
+;; East (upstairs-bedroom), South (front-stairs), South (living-room), East (kitchen).
