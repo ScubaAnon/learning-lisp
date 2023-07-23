@@ -663,9 +663,11 @@
   "Returns a list of two throwDie, hereinafter a throw."
   (list (throwDie) (throwDie)))
 ;; c.
+;; Changed this after seeing the book answer since I overcomplicated it beyond reason.
 (defun snakeEyesP (throw)
   "Checks if a throw contains two ones."
-  (and (equal 1 (car throw)) (equal (car throw) (cadr throw)) t))
+  (equal throw '(1 1)))
+;; Left this one overcomplicated. Basically did the same above previously.
 (defun boxcarsP (throw)
   "Checks if a throw contains two sixes."
   (and (equal 6 (car throw)) (equal (car throw) (cadr throw)) t))
@@ -686,29 +688,30 @@
 	((boxcarsP throw) 'BOXCARS)
 	(t (reduce '+ throw))))
 ;; f. Stole the flatten function online because I'm committed to this solution.
+;;    Made obsolete with append, which is what I should have used. Although, to be fair, I
+;;    hadn't learnt that yet, so what the hell?
 (defun flatten (x &optional stack out)
   "Returns a list with the elements of all sublists on the top level."
   (cond ((consp x) (flatten (rest x) (cons (first x) stack) out))
         (x         (flatten (first stack) (rest stack) (cons x out)))
         (stack     (flatten (first stack) (rest stack) out))
         (t out)))
-
+;; Replaced flatten with append.
 (defun craps nil
   "Plays a dumb dice game."
-  (flatten (let ((throw (throwDice)))
-    (list 'Throw (car throw) 'and (cadr throw) '-- (sayThrow throw) '--
-		   (cond ((equal 'SNAKE-EYES (sayThrow throw)) (list 'You 'lose))
-			 ((equal 'BOXCARS (sayThrow throw)) (list 'You 'win))
-			 (t (list 'Your 'point 'is (sayThrow throw))))))))
-;; g. Surely I can reduce code duplication here... another time? Not required anyway. Reused
-;;    last-cadr from way back on first attempt, but realized I was doing more than necessary.
+  (let ((throw (throwDice)))
+    (append '(Throw) (list (car throw)) '(and) (list (cadr throw)) '(--) (list (sayThrow throw)) '(--)
+	    (cond ((equal 'SNAKE-EYES (sayThrow throw)) (list 'You 'lose))
+		  ((equal 'BOXCARS (sayThrow throw)) (list 'You 'win))
+		  (t (list 'Your 'point 'is (sayThrow throw)))))))
+;; g. - Replaced flatten with append.
 (defun tryForPoint (n)
   "Simulates a continuation of craps by playing for a point. 7 results in a loss."
-  (flatten (let ((throw (throwDice)))
-    (list 'Throw (car throw) 'and (cadr throw) '-- (sayThrow throw) '--
-		   (cond ((equal n (reduce '+ throw)) (list 'You 'win))
-			 ((equal 7 (reduce '+ throw)) (list 'You 'lose))
-			 (t (list 'Throw 'again)))))))
+  (let ((throw (throwDice)))
+    (append '(Throw) (list (car throw)) '(and) (list (cadr throw)) '(--) (list (sayThrow throw)) '(--)
+	    (cond ((equal n (reduce '+ throw)) (list 'You 'win))
+		  ((equal 7 (reduce '+ throw)) (list 'You 'lose))
+		  (t (list 'Throw 'again))))))
 
 ;; Exercise 6.1
 ;; This is because nthcdr returns nil, and the car of nil is nil, etc.
@@ -958,17 +961,29 @@
 ;; f.
 ;; flatten makes a return. Something tells me I should be able to these assignments without
 ;; it. Just checked book answer on craps function from earlier. Yup. Append is the answer.
-(defun where ()
+(defun whereOld ()
   "Gives a full description of where Robbie is."
   (flatten (let ((result
 		 (cond ((upstairsP loc) '(upstairs in the))
 		       ((onStairsP loc) '(on the))
 		       (t '(downstairs in the)))))
 	     (list 'Robbie 'is result loc))))
+;; Probably how it's intended to be solved.
+(defun where ()
+  "Gives a full description of where Robbie is."
+  (let ((result
+	  (cond ((upstairsP loc) '(upstairs in the))
+		((onStairsP loc) '(on the))
+		(t '(downstairs in the)))))
+    (append '(Robbie is) result (list loc))))
 ;; g.
 (defun move (direction)
   (cond ((not (look direction loc)) '(Ouch! Robbie hit the wall and died!))
 	((setf loc (look direction loc)) (where))))
 ;; h.
-;; Movies: West (dining-room), West (downstairs-bedroom), North (back-stairs), North (library),
+;; Moves: West (dining-room), West (downstairs-bedroom), North (back-stairs), North (library),
 ;; East (upstairs-bedroom), South (front-stairs), South (living-room), East (kitchen).
+
+;; Exercise 6.42
+(defun royalWe (list)
+  (subst 'we 'I list))
