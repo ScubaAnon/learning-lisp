@@ -987,3 +987,23 @@
 ;; Exercise 6.42
 (defun royalWe (list)
   (subst 'we 'I list))
+
+;; Exercise 7.1
+;; (mapcar #'add1 '(13 5 7 9))
+
+;; Exercise 7.2
+;; (mapcar #'caddr daily-planet)
+(defvar daily-planet
+  '((olsen jimmy 123-76-4535 cub-reporter)
+    (kent  clark 089-52-6787 reporter)
+    (lane  lois  951-26-1438 reporter)
+    (white perry 355-16-7439 editor)))
+
+;; Exercise 7.3
+;; (mapcar #'zerop '(2 0 3 4 0 -5 -6))
+;; Maybe a formatting error in the book, but its list is '(20340-5 -6), which results in error.
+
+;; Exercise 7.4
+;; (mapcar #'greaterThanFiveP '(2 0 3 4 0 -5 -6))
+(defun greaterThanFiveP (n)
+  (> n 5))
