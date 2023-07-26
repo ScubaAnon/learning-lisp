@@ -1,7 +1,3 @@
-(defpackage gentle-journey
-  (:use :cl))
-(in-package :gentle-journey)
-
 (format t "Hello world!~%")
 
 (defun add1 (n)
