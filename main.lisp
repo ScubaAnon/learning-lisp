@@ -1007,3 +1007,32 @@
 ;; (mapcar #'greaterThanFiveP '(2 0 3 4 0 -5 -6))
 (defun greaterThanFiveP (n)
   (> n 5))
+
+;; Exercise 7.5
+(lambda (n) (- n 7))
+
+;; Exercise 7.6
+;; Thought eq would differentiate between t and 't, but it makes sense it doesn't.
+(lambda (input) (or (eq input t) (eq input nil)))
+
+;; Exercise 7.7
+(defun upDownFlip (l)
+  (mapcar
+   #'(lambda (e)
+       (cond ((equal 'up e) 'down)
+	     ((equal 'down e) 'up)
+	     (t 'flat)))
+       l))
+
+;; Exercise 7.8
+(defun roughlyEqual (x k)
+  (find-if
+   #'(lambda (e)
+       (cond ((and (< e (+ k 10)) (> e (- k 10))) e)))
+   x))
+
+;; Exercise 7.9
+;; Strangely enough, listp will return t on nil/(), but I could remove the and clause without
+;; issue. '(1 () nil (sup man) huh) gives the correct output (sup man), despite expecting nil.
+(defun findNested (l)
+  (find-if #'(lambda (e) (cond ((listp e) e))) l))
