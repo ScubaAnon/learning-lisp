@@ -1032,3 +1032,52 @@
 ;; issue. '(1 () nil (sup man) huh) gives the correct output (sup man), despite expecting nil.
 (defun findNested (l)
   (find-if #'(lambda (e) (cond ((listp e) e))) l))
+
+;; Exercise 7.10
+;; a.
+(defvar note-table
+'((C 1) (C-Sharp 2)
+  (D 3) (D-Sharp 4)
+  (E 5)
+  (F 6) (F-Sharp 7)
+  (G 8) (G-Sharp 9)
+  (A 10) (A-Sharp 11)
+  (B 12)))
+;; b. - Added a simple sanitizing condition.
+(defun numbers (notes-list)
+  "Convert notes into numbers using note-table."
+  (mapcar #'(lambda (note)
+	      (cond ((and (equal note (car (assoc note note-table))) (not (equal nil (assoc note note-table)))) (cadr (assoc note note-table)))
+		    (t (error "Invalid key: ~S" note))))
+	  notes-list))
+;; c.
+;; I initally had the helper function within the main one. Luckily I noticed how painful that
+;; would be early on and refactored it out to a helper function as recommended.
+(defun notes (numbers-list)
+  "Convert numbers into notes using note-table."
+  (mapcar #'(lambda (n)
+	      (cond ((equal n (cadr (searchtablebynumber n))) (car (searchtablebynumber n)))))
+	       numbers-list))
+(defun searchTableByNumber (n)
+  "Search note-table by number."
+  (find-if #'(lambda (e) (equal n (cadr e))) note-table))
+;; d.
+;; They give the identity relation. The book answer is rather bland.
+;; e.
+(defun raise (n l)
+  "Raise a numbers list by n."
+  (mapcar #'(lambda (m) (+ n m)) l))
+;; f.
+;; Added a helper function to take care of large numbers because eh.
+(defun normalize (l)
+  "Keep a list of numbers within 1-12."
+  (mapcar #'normalizeSingelton l))
+(defun normalizeSingelton (n)
+  "Recursively normalizes a number."
+  (cond ((> n 12) (normalizeSingelton (- n 12)))
+        ((< n 1) (normalizeSingelton (+ n 12)))
+        (t n)))
+;; g.
+(defun transpose (n song)
+  "Transpose a list of notes by n steps."
+  (notes (normalize (raise n (numbers song)))))
