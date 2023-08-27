@@ -305,7 +305,7 @@
 ;; ⟶ Result of not is nil
 
 ;; Exercise 3.5
-(defun half (n) (/ n 2))
+(defun halve (n) (/ n 2))
 (defun cube (n) (* n (* n n)))
 (defun onemorep (n1 n2) (equal (- n1 1) n2))
 
@@ -429,7 +429,7 @@
 (defun emphasize (l)
   (cond ((equal (first l) 'good) (cons 'great (rest l)))
 	 ((equal (first l) 'bad) (cons 'awful (rest l)))
-	 (t (cons 'very l)))))
+	 (t (cons 'very l))))
 
 ;; Exercise 4.9
 ;; As written it'll just return whatever is passed to it.
@@ -482,10 +482,11 @@
 
 ;; Exercise 4.16
 (defun squareDoubleDiv (n)
-  (cond ((< n 0) (* n n))
+  (cond ((and (oddp n) (> n 0)) (* n n))
 	((and (oddp n) (< n 0)) (* n 2))
 	(t (/ n 2))))
 ;; Apparently (* n 2) is unreachable code... huh?
+;; Came back and fixed this, I'm dumb.
 
 ;; Exercise 4.17
 (defun childCheck (e1 e2)
@@ -845,7 +846,8 @@
 ;; length again?
 
 ;; Exercise 6.30
-(defvar books
+(defvar *books*)
+(setq *books*
   '((1984                    . George-Orwell)
     (Brave-New-World         . Aldous-Huxley)
     (The-Silmarillion        . John-Ronald-Reuel-Tolkien)
@@ -854,7 +856,7 @@
 
 ;; Exercise 6.31
 (defun whoWrote (title)
-  (cdr (assoc title books)))
+  (cdr (assoc title *books*)))
 
 ;; Exercise 6.32
 ;; Reverse will only do so for the top level, so I assume no change.
@@ -899,7 +901,8 @@
 ;;   (d))
 
 ;; Exercise 6.41
-(defvar rooms
+(defvar *rooms*)
+(setq *rooms*
   '((living-room        (north front-stairs)
                         (south dining-room)
                         (east kitchen))
@@ -931,20 +934,21 @@
 ;; a.
 (defun choices (room)
   "Show available movement choices given a room."
-  (cdr (assoc room rooms)))
+  (cdr (assoc room *rooms*)))
 ;; b.
 (defun look (direction room)
   "Provide the room given a direction from a room."
   (car (cdr (assoc direction (choices room)))))
 ;; c.
-(defvar loc 'pantry)
+(defvar *loc*)
+(setq *loc* 'pantry)
 (defun setRobbieLocation (place)
   "Moves Robbie to PLACE by setting the variable LOC."
-  (setf loc place))
+  (setf *loc* place))
 ;; d.
 (defun howManyChoices ()
   "Provides the number of choices from current room."
-  (length (choices loc)))
+  (length (choices *loc*)))
 ;; e.
 (defun upstairsP (room)
   "Returns T if the room is either the library or upstairs-bedroom."
@@ -960,22 +964,22 @@
 (defun whereOld ()
   "Gives a full description of where Robbie is."
   (flatten (let ((result
-		 (cond ((upstairsP loc) '(upstairs in the))
-		       ((onStairsP loc) '(on the))
+		 (cond ((upstairsP *loc*) '(upstairs in the))
+		       ((onStairsP *loc*) '(on the))
 		       (t '(downstairs in the)))))
-	     (list 'Robbie 'is result loc))))
+	     (list 'Robbie 'is result *loc*))))
 ;; Probably how it's intended to be solved.
 (defun where ()
   "Gives a full description of where Robbie is."
   (let ((result
-	  (cond ((upstairsP loc) '(upstairs in the))
-		((onStairsP loc) '(on the))
+	  (cond ((upstairsP *loc*) '(upstairs in the))
+		((onStairsP *loc*) '(on the))
 		(t '(downstairs in the)))))
-    (append '(Robbie is) result (list loc))))
+    (append '(Robbie is) result (list *loc*))))
 ;; g.
 (defun move (direction)
-  (cond ((not (look direction loc)) '(Ouch! Robbie hit the wall and died!))
-	((setf loc (look direction loc)) (where))))
+  (cond ((not (look direction *loc*)) '(Ouch! Robbie hit the wall and died!))
+	((setf *loc* (look direction *loc*)) (where))))
 ;; h.
 ;; Moves: West (dining-room), West (downstairs-bedroom), North (back-stairs), North (library),
 ;; East (upstairs-bedroom), South (front-stairs), South (living-room), East (kitchen).
@@ -989,7 +993,8 @@
 
 ;; Exercise 7.2
 ;; (mapcar #'caddr daily-planet)
-(defvar daily-planet
+(defvar *daily-planet*)
+(setq *daily-planet*
   '((olsen jimmy 123-76-4535 cub-reporter)
     (kent  clark 089-52-6787 reporter)
     (lane  lois  951-26-1438 reporter)
@@ -1035,7 +1040,8 @@
 
 ;; Exercise 7.10
 ;; a.
-(defvar note-table
+(defvar *note-table*)
+(setq *note-table*
 '((C 1) (C-Sharp 2)
   (D 3) (D-Sharp 4)
   (E 5)
@@ -1081,3 +1087,86 @@
 (defun transpose (n song)
   "Transpose a list of notes by n steps."
   (notes (normalize (raise n (numbers song)))))
+
+;; 7.11
+(defun greaterThanOneLessThanFive (l) ; Java level verbose naming
+  (remove-if-not #'(lambda (n) (and (> n 1) (< n 5)))l))
+
+;; 7.12
+(defun theCounter (l)
+  "Counts occurences of 'the in a list."
+  (length (remove-if-not #'(lambda (w) (equal 'the w)) l)))
+
+;; 7.13 - General function is just as easy, come on.
+(defun nLengthSublistPicker (n l)
+  "List all sublists of length n."
+  (remove-if-not #'(lambda (sublist) (equal n (length sublist))) l))
+
+;; 7.14
+(defun removeIfNotIntersection (a b)
+  (remove-if-not #'(lambda (e) (member e b)) a))
+;; This one took a while for some reason. And it still sucks compared to the book answer,
+;; which seems so obvious in retrospect. To be fair it was 4AM.
+;; Before falling asleep I realized mine will handle dubplicates in a set while the book's
+;; won't. One shouldn't expect duplicates in a set, but I still thinks that's a plus for me.
+(defun removeIfUnion (a b)
+  (append
+   (remove-if #'(lambda (e) (and (member e a) (member e b))) a)
+   (removeIfNotIntersection a b)
+   (remove-if #'(lambda (e) (and (member e a) (member e b))) b)))
+
+;; 7.15
+;; a.
+(defun rank (card) (car card))
+(defun suit (card) (cadr card))
+;; b.
+(defvar *my-hand*)
+(setq *my-hand*
+  '((3 hearts)
+    (5 clubs)
+    (2 diamonds)
+    (4 diamonds)
+    (ace spades)))
+(defun countSuit (suit hand)
+  "Return number of instances of suit in hand."
+  (length (remove-if-not #'(lambda (card) (equal suit (suit card))) hand)))
+;; c.
+(defvar *colors*)
+(setq *colors*
+  '((clubs black)
+    (diamonds red)
+    (hearts red)
+    (spades black)))
+(defun colorOf (card) ; Not sure if they meant for suit to also work on colors.
+  "Return the color of the card."
+  (cadr (find-if #'(lambda (what-color)
+		     (equal (car what-color) (suit card)))
+		 *colors*)))
+;; d.
+(defun firstRed (hand)
+  "Return the first red card, or nil if none."
+  (find-if #'(lambda (card) (equal 'red (colorOf card))) hand))
+;; e.
+(defun blackCards (hand)
+  (remove-if-not #'(lambda (card)
+		     (equal 'black (colorOf card)))
+		 hand))
+;; f.
+(defun whatRanks (suit hand)
+  "Return the ranks on hand with the specified suit."
+  (mapcar #'rank
+	  (remove-if-not #'(lambda (card)
+			     (equal suit (suit card)))
+			 hand)))
+;; g.
+;; Assignment hint pretty much gave the answer here.
+(defvar *all-ranks*)
+(setq *all-ranks* '(2 3 4 5 6 7 8 9 10 jack queen king ace))
+(defun higherRankP (first-card second-card)
+  "Returns t if first input is a higher ranked card than the second input."
+  (member (rank first-card) (member (rank second-card) *all-ranks*)))
+;; h.
+(defun highCard (hand)
+  (reduce #'(lambda (x y) (cond ((higherRankP x y) x)
+		      (t y)))
+     hand))
