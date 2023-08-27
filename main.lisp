@@ -1053,7 +1053,7 @@
 (defun numbers (notes-list)
   "Convert notes into numbers using note-table."
   (mapcar #'(lambda (note)
-	      (cond ((and (equal note (car (assoc note note-table))) (not (equal nil (assoc note note-table)))) (cadr (assoc note note-table)))
+	      (cond ((and (equal note (car (assoc note *note-table*))) (not (equal nil (assoc note *note-table*)))) (cadr (assoc note *note-table*)))
 		    (t (error "Invalid key: ~S" note))))
 	  notes-list))
 ;; c.
@@ -1066,7 +1066,7 @@
 	       numbers-list))
 (defun searchTableByNumber (n)
   "Search note-table by number."
-  (find-if #'(lambda (e) (equal n (cadr e))) note-table))
+  (find-if #'(lambda (e) (equal n (cadr e))) *note-table*))
 ;; d.
 ;; They give the identity relation. The book answer is rather bland.
 ;; e.
