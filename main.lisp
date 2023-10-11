@@ -1168,5 +1168,41 @@
 ;; h.
 (defun highCard (hand)
   (reduce #'(lambda (x y) (cond ((higherRankP x y) x)
-		      (t y)))
-     hand))
+                                (t y)))
+          hand))
+
+;; 7.16
+;; Union.
+
+;; 7.17
+;; append only works on lists, so this function fails if there's
+;; a non-list element in the list.
+(defun listsLength (l)
+  "Returns length of all sublists combined."
+  (length (reduce #'append l)))
+
+;; 7.18
+;; I'm surprised there's not a type error, so I have no clue. Reading
+;; the answer, this has everything to do with append. Understood the part
+;; about identity value, but not sure I understood the append part.
+
+;; 7.19
+(defun allOdd (l)
+  (every #'oddp l))
+
+;; 7.20
+(defun noneOdd (l)
+  (every #'(lambda (x) (not (oddp x))) l))
+
+;; 7.21
+(defun notAllOdd (l)
+  "Returns T if not all elements are odd."
+  (not (or (allOdd l) (noneOdd l))))
+
+;; 7.22
+(defun notNoneOdd (l)
+  "Returns T if there are no odd elements."
+  (not (notAllOdd l)))
+
+;; 7.23
+;; Better names (without my requirements): allEven, noneEven.
