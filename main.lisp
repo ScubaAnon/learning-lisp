@@ -1206,3 +1206,27 @@
 
 ;; 7.23
 ;; Better names (without my requirements): allEven, noneEven.
+
+;; 7.24
+;; A function which applies functions to data structures.
+
+;; 7.25
+;; Any lambda can be converted to a named function, therefore it's possible
+;; to do without them, but often times it's more useful to have an
+;; anonymous function in a specialized case.
+
+;; 7.26
+;; Simply car the result of remove-if-not. Of course, I don't know how to
+;; write macro yet to make it look the same.
+
+;; 7.27
+;; A simple not should do it I think. Yup.
+
+;; 7.28
+;; Uh... [] [] ... []
+;;        \  |    /
+;;         \ |   /
+;;          \|  /
+;;           *
+;; ?
+;; Looking at the answer... close enough.
