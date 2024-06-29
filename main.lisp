@@ -1230,3 +1230,105 @@
 ;;           *
 ;; ?
 ;; Looking at the answer... close enough.
+
+;; 7.29
+(defvar *database*)
+(setq *database*
+      '((b1 shape brick)
+	(b1 color green)
+	(b1 size small)
+	(b1 supported-by b2)
+	(b1 supported-by b3)
+	(b2 shape brick)
+	(b2 color red)
+	(b2 size small)
+	(b2 supports b1)
+	(b2 left-of b3)
+	(b3 shape brick)
+	(b3 color red)
+	(b3 size small)
+	(b3 supports b1)
+	(b3 right-of b2)
+	(b4 shape pyramid)
+	(b4 color blue)
+	(b4 size large)
+	(b4 supported-by b5)
+	(b5 shape cube)
+	(b5 color green)
+	(b5 size large)
+	(b5 supports b4)
+	(b6 shape brick)
+	(b6 color purple)
+	(b6 size large)))
+
+;; a.
+(defun matchElement (x y)
+  "We wish to match a pattern '? with anything."
+  (cond ((or (eq x y) (eq y '?)) t)
+	(t nil)))
+
+;; b.
+(defun matchTriple (first-assertion second-assertion)
+  "Using matchElement, we check if two assertions are equal."
+  (every #'matchElement first-assertion second-assertion))
+
+;; c.
+(defun fetch (pattern)
+  "Using matchTriple, we return all assertions equal to the pattern"
+  (remove-if-not #'(lambda (x) (matchTriple x pattern)) *database*))
+
+;; d.
+;; (fetch '(b4 shape ?))    --> pyramid
+;; (fetch '(? shape brick)) --> b1, b2, b3, b6
+;; (fetch '(b2 ? b3))       --> left-of
+;; (fetch '(? color ?))     --> b1 green, b2 red, b3 red,
+;;                              b4 blue, b5 green, b6 purple
+;; (fetch '(b4 ? ?))        --> A large blue pyramid supported by b5
+
+;; e.
+;; ((lambda (block) (cons block '(color ?))) 'b3)
+;; ... and we did this why? Edit: to help with f. I guess?
+
+;; f.
+(defun supporters (blockn)
+  "Returns a list supported by block in question."
+  (mapcar #'last-cadr (fetch (cons blockn '(supported-by ?)))))
+
+;; g.
+(defun suppCube (blockn)
+  "Returns a true value if blockn is supported by a cube."
+  (find-if #'(lambda (x) (fetch (cons x '(shape cube)))) (supporters blockn)))
+
+;; h.
+(defun desc1 (blockn)
+  "Return assertions about blockn."
+  (fetch (cons blockn '(? ?))))
+
+;; i.
+(defun desc2 (blockn)
+  "Returns assertions without a head."
+  (mapcar #'cdr (desc1 blockn)))
+
+;; j.
+(defun description (blockn)
+  "Simply merges sublists from desc2 into one list."
+  (reduce #'append (desc2 blockn)))
+
+;; Wish I had started trying to make this, maybe it would be different
+;; without the unnecessary inspiration from desc1 and desc2. Although
+;; fetch, behead, merge, seems fairly obvious regardless.
+(defun descriptionAlt (blockn)
+  (reduce #'append (mapcar #'cdr (fetch (cons blockn '(? ?))))))
+
+;; k.
+;; b1 --> (shape brick color green size small supported-by b2
+;;        supported-by b3)
+;; b4 --> (shape pyramid color blue size large supported-by b5)
+
+;; l.
+;; Something like (b1 material wood) and (b2 material plastic).
+
+;; 7.30
+;; (mapcar #'append *words* (mapcar #'list '(uno dos tres quatro cinco)))
+;; Would be more efficient to just cons the Spanish list to the front, giving
+;; (uno one un) instead. Perhaps reverse, cons, reverse? Meh...
