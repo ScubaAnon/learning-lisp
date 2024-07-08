@@ -1332,3 +1332,247 @@
 ;; (mapcar #'append *words* (mapcar #'list '(uno dos tres quatro cinco)))
 ;; Would be more efficient to just cons the Spanish list to the front, giving
 ;; (uno one un) instead. Perhaps reverse, cons, reverse? Meh...
+
+;; 8.1
+;; Second condition is never true. No need for tracing...
+
+;; 8.2 - Why use if instead of cond? Silly.
+(defun anyOddP (l)
+  (if (null l) nil
+      (if (oddp (car l)) t
+	  (if t (anyoddp (cdr l))))))
+
+;; 8.3
+;; Is this covered in this chapter? Has to do with large numbers
+;; and decimal numbers. The latter can't fit the former into a register
+;; because some bits are used to help represent the decimal number if
+;; I recall correctly. Something like that.
+(defun fact (n)
+  (cond ((zerop n) 1)
+	(t (* n (fact (- n 1))))))
+
+;; 8.4
+(defun laugh (n)
+  "Returns a list of n elements of 'ha."
+  (cond ((zerop n) nil)
+	(t (cons 'ha (laugh (- n 1))))))
+
+;; 8.5
+(defun addUp (l)
+  (cond ((null l) 0)
+	(t (+ (car l) (addUp (cdr l))))))
+
+;; a. When the list is empty.
+;; b. n + ...
+;; c. (addUp (cdr l))
+
+;; 8.6
+(defun allOddP (l)
+  "Returns true if all elements are odd numbers."
+  (cond ((null l) nil)
+	((not (oddp (car l))) nil)
+	(t (allOddP (cdr l)))))
+
+;; 8.7
+(defun recMember (e l)
+  "Recursive version of #'member."
+  (cond ((eq e (car l)) l)
+	(t (recMember e (cdr l)))))
+
+;; 8.8 - It returns the same... but unsure if similarities end there.
+(defun recAssoc (k l)
+  "Recursive version of #'assoc."
+  (cond ((eq k (car (car l))) (car l))
+	(t (recAssoc k (cdr l)))))
+
+;; 8.9
+(defun recNth (n l)
+  "Recursive version of #'nth."
+  (cond ((null l) nil)
+	((< n 1) (car l))
+	(t (recNth (- n 1) (cdr l)))))
+
+;; 8.10
+;; It can't handle negative numbers, and it uses the #'+ to add x to
+;; y ones, so only the y side is recursive? Huh? Seems pointless.
+(defun recPlus (x y)
+  "A weird recursive version of #'+."
+  (cond ((or (< x 0) (< y 0)) nil)
+	((zerop y) x)
+	(t (recPlus (+ x 1) (- y 1)))))
+
+;; 8.11
+(defun fib (n)
+  "Fibonacci algorithm applied on n."
+  (cond ((< n 0) nil)
+	((or (equal n 0) (equal n 1)) 1)
+	(t (+ (fib (- n 1)) (fib (- n 2))))))
+
+;; 8.12
+;; Any list with 7 in it will work, but not one without it.
+
+;; 8.13
+;; A negative number.
+
+;; 8.14
+;; (defun inf () (inf)), commented out because no.
+
+;; 8.15
+;; I guess car and cdr would both be x. So I suppose count-slices would
+;; crash at (rest x), expecting a list. Looked at the answer, and I got
+;; cdr wrong. Had a suspicion it would be hinting at infinite recursion.
+;; I swear the book answer was the first I had in mind, but instead of
+;; realizing that the cdr would now be the list itself pointing at itself,
+;; I thought it would point at x, even though x is no longer there. Meh.
+
+;; 8.16
+;; On an empty list, it would first check if (car nil) is an odd number,
+;; but since it's not a number, we crash.
+
+;; 8.17 - car,cdr > first,rest
+(defun findFirstOdd (l)
+  (cond ((null l) nil)
+	((oddp (car l)) (car l))
+	(t (findFirstOdd (cdr l)))))
+
+;; 8.18 - This function was made in chapter 6.
+(defun recLastElement (l)
+  (cond ((null (cdr l)) (car l))
+	(t (recLastElement (cdr l)))))
+
+;; 8.19
+;; It would work for any list with an odd number. Otherwise, see 8.16.
+
+;; 8.20
+;; End-test: 0, End-value: 1
+;; Aug-fun: cons, Aug-val: 'ha
+;; Reduced-x: (- n 1)
+
+;; 8.21
+(defun addNums (n)
+  "Returns n + (n - 1)."
+  (cond ((zerop n) n)
+	(t (+ n (addNums (- n 1))))))
+
+;; 8.22
+;; Struggled because I did caar instead of cadr again...
+;; Didn't think about template, but this is was probably supposed to
+;; be Double-Test Tail Recursion. However, I put End-test-2 as a
+;; condition for Reduced-x. It's probably equivalent to the negation
+;; of the former and an End-value-2 of nil. Oh well, it works.
+(defun allEqual (l)
+  "Returns T if all elements are equal."
+  (cond ((null (cdr l)) t)
+	((equal (car l) (cadr l)) (allEqual (cdr l)))))
+
+;; 8.23 - Meh.
+
+;; 8.24
+;; Assuming they mean to have space between the numbers...
+(defun countDown (n)
+  (cond ((zerop n) nil)
+	(t (cons n (countDown (- n 1))))))
+
+;; 8.25
+;; Something like (reduce #'* (countDown n)).
+
+;; 8.26
+;; Depends on the end-test. ((< n 0) nil), ((zerop n) (list n)).
+
+;; 8.27
+;; Assuming they meant '(3 4 5 6) and not '(345 6)...
+(defun squareList (l)
+  (cond ((null l) nil)
+	(t (cons (* (car l) (car l)) (squareList (cdr l))))))
+
+;; 8.28
+(defun myNth (n l)
+  (cond ((or (zerop n) (null l)) (first l))
+	 (t (myNth (- n 1) (cdr l)))))
+
+;; 8.29
+;; Didn't I do this in 8.7?
+;; Checked answers, even the book has the same function!
+
+;; 8.30 - Same as above. Already done in 8.8.
+
+;; 8.31
+;; For some reason I went from having same-length on top to having
+;; it last. Book answer is better...
+(defun compareLengths (x y)
+  (cond ((and (not (null (car x))) (null (car y))) 'first-is-longer)
+	((and (null (car x)) (not (null (car y)))) 'second-is-longer)
+	((and (null (car x)) (null (car y))) 'same-length)
+	(t (compareLengths (cdr x) (cdr y)))))
+
+;; 8.32
+(defun sumNumericElements (l)
+  "Returns the sum of numbers in a list, ignoring symbols."
+  (cond ((null l) 0)
+	((numberp (car l)) (+ (car l) (sumNumericElements (cdr l))))
+	(t (sumNumericElements (cdr l)))))
+
+;; 8.33
+;; First version of this would cons '- in the return of the second clause.
+;; Figuring I misunderstood something and was supposed to use it in 8.35,
+;; I changed it, although it makes little difference really.
+(defun myRemove (s l)
+  "Recursive version of #'remove."
+  (cond ((null l) nil)
+	((equal s (car l)) (myRemove s (cdr l)))
+	(t (cons (car l) (myRemove s (cdr l))))))
+
+;; 8.34
+(defun myIntersection (x y)
+  "Recursive version of #'intersection."
+  (cond ((or (null x) (null y)) nil)
+	((member (car x) y) (cons (car x) (myIntersection (cdr x) (cdr y))))
+	((member (car y) x) (cons (car y) (myIntersection (cdr x) (cdr y))))
+	(t (myIntersection (cdr x) (cdr y)))))
+
+;; 8.35
+(defun mySetDifference (x y)
+  "Recursive version of #'set-difference."
+  (cond ((or (null x) (null y)) x)
+	((member (car y) x) (mySetDifference (remove (car y) x) (cdr y)))
+	(t (mySetDifference x (cdr y)))))
+
+;; 8.36
+;; Looked at the book answer for the second one. Meh.
+(defun countOdd (l)
+  "Returns how many odd numbers there are in a list."
+  (cond ((null l) 0)
+	((oddp (car l)) (+ 1 (countOdd (cdr l))))
+	(t (countOdd (cdr l)))))
+
+;; 8.37
+;; Probably need dtrace for this. Looked identical with trace.
+
+;; 8.38
+;; I suspect the two recursive calls would continuously cons nils. Nope,
+;; book reveals that the nils will be replaced too.
+
+;; 8.39
+(defun countAtoms (tree)
+  "Returns the number of atoms (including nil) are in the tree."
+  (cond ((atom tree) 1)
+	(t (+ (countAtoms (car tree))
+	      (countAtoms (cdr tree))))))
+
+;; 8.40
+;; Didn't think I'd solve this one to be honest.
+(defun countCons (tree)
+  "Returns the number of cons cells in the tree."
+  (cond ((atom tree) 0)
+	(t (+ 1 (countCons (car tree))
+	      (countCons (cdr tree))))))
+
+;; 8.41
+;; Not sure why I need ((atom tree) 0)... Surely if it's not a number
+;; I would simply be ignored?
+(defun sumTree (tree)
+  "Sums all numbers in a tree, ignoring atoms."
+  (cond ((numberp tree) tree)
+	((atom tree) 0)
+	(t (+ (sumTree (car tree))
+	      (sumTree (cdr tree))))))
