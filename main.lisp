@@ -1499,10 +1499,19 @@
 ;; 8.31
 ;; For some reason I went from having same-length on top to having
 ;; it last. Book answer is better...
-(defun compareLengths (x y)
+(defun brokenCompareLengths (x y)
   (cond ((and (not (null (car x))) (null (car y))) 'first-is-longer)
 	((and (null (car x)) (not (null (car y)))) 'second-is-longer)
 	((and (null (car x)) (null (car y))) 'same-length)
+	(t (compareLengths (cdr x) (cdr y)))))
+
+;; This is a rewrite for assignment 8.44. Since nil is an atom, this one
+;; works better than the book answer since it won't crash if x or y is
+;; a symbol. For example (compareLength '(a b) '(c . d))
+(defun compareLengths (x y)
+  (cond ((and (atom x) (atom y)) 'same-length)
+	((atom y) 'first-is-longer)
+	((atom x) 'second-is-longer)
 	(t (compareLengths (cdr x) (cdr y)))))
 
 ;; 8.32
@@ -1569,10 +1578,44 @@
 
 ;; 8.41
 ;; Not sure why I need ((atom tree) 0)... Surely if it's not a number
-;; I would simply be ignored?
+;; it would simply be ignored?
 (defun sumTree (tree)
   "Sums all numbers in a tree, ignoring atoms."
   (cond ((numberp tree) tree)
 	((atom tree) 0)
 	(t (+ (sumTree (car tree))
 	      (sumTree (cdr tree))))))
+
+;; 8.42
+(defun mySubst (e s l)
+  "Recursive version of #'subst."
+  (cond ((null l) nil)
+	((equal (car l) e) (cons s (mySubst e s (cdr l))))
+	(t (cons (car l) (mySubst e s (cdr l))))))
+
+;; 8.43
+;; Quite different from the one I stole online earlier. Probably not
+;; as efficient, but I'm not about to benchmark them.
+(defun myFlatten (l)
+  "Returns a list with the elements of all sublists on the top level."
+  (cond ((null l) nil)
+	((atom l) (list l))
+	(t (append (myFlatten (car l))
+		   (myFlatten (cdr l))))))
+
+;; 8.44
+;; After much pain trying to work around a flawed solution for 8.31,
+;; I finally fixed it instead (also painful since I chose not to just
+;; copy the book answer and figure it out myself). Now compareLengths
+;; can handle symbols. Although it's supposed to only compare lists...
+;; But then again with (.) you could get a symbol after a #'cdr, so it
+;; seems necessary. Alright, what did the book do here? Tsk, as I
+;; suspected, the car/cdr pattern... Wrote mostly the same at first, but
+;; I never would have thought of #'max anyway!
+(defun treeDepth (tree)
+  (cond ((atom tree) 0)
+	((equal (compareLengths (car tree) (cdr tree)) 'same-length)
+	 (+ 1 (treeDepth (car tree))))
+	((equal (compareLengths (car tree) (cdr tree)) 'first-is-longer)
+	 (+ 1 (treeDepth (car tree))))
+        (t (+ 1 (treeDepth (cdr tree))))))
