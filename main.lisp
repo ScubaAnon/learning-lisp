@@ -1619,3 +1619,38 @@
 	((equal (compareLengths (car tree) (cdr tree)) 'first-is-longer)
 	 (+ 1 (treeDepth (car tree))))
         (t (+ 1 (treeDepth (cdr tree))))))
+
+;; 8.45
+;; Tried the reverse of current null/atom cases, but then had a hunch it
+;; might be the opposite, which makes sense since the number of nestings
+;; is equivalent to the number of nils, except where the deepest nesting's
+;; #'cdr is a symbol... but I could add a case for that if needed. Book
+;; answer is different though (counts the number of #'car instead).
+(defun parenDepth (l)
+  "Returns the number of nesting in a list."
+  (cond ((null l) 1)
+	((atom l) 0)
+	(t (max (+ (parenDepth (car l))
+		   (parenDepth (cdr l)))))))
+
+;; 8.46
+(defun countUp (n)
+  "Return list of n natural numbers."
+  (cond ((zerop n) nil)
+	(t (append (countUp (- n 1)) (list n)))))
+
+;; 8.47
+(defun makeLoaf (n)
+  (if (zerop n) nil (cons 'x (makeLoaf (- n 1)))))
+
+;; 8.48
+;; Used Simultaneous Recursion on Several Variables I guess.
+(defun bury (e n)
+  "Returns element in n depth list."
+  (cond ((< n 2) (cons e nil))
+	(t (bury (list e) (- n 1)))))
+
+;; 8.49
+(defun pairings (x y)
+  (cond ((null x) (list (list (list nil))))
+	(t (append (list (list (car x) (car y)) (pairings (cdr x) (cdr y)))))))
