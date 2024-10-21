@@ -1654,3 +1654,113 @@
 (defun pairings (x y)
   (cond ((null x) (list (list (list nil))))
 	(t (append (list (list (car x) (car y)) (pairings (cdr x) (cdr y)))))))
+
+;; 8.50
+;; It feels like they wanted you to write a powerset function, but then
+;; held back to make it easier.
+(defun sublists (l)
+  "Returns sublists of a list, but not the powerset."
+  (cond ((null l) l)
+	(t (cons l (sublists (cdr l))))))
+
+;; 8.51
+;; After writing this I realized my iterator doesn't iterate.
+(defun myReverse (l)
+  "Returns the reversed list."
+  (myReverseRec 1 l))
+
+(defun myReverseRec (n l)
+  (cond ((> n (length l)) nil)
+	(t (append (myReverse (cdr l))
+		   (list (car l))))))
+
+;; 8.52
+;; Actually gave up on this one despite being on the right track.
+(defun myUnion (x y)
+  (append x (myUnionRec x y)))
+
+(defun myUnionRec (x y)
+  (cond ((null y) nil)
+	((member (car y) x) (myUnionRec x (cdr y)))
+	(t (cons (car y)
+		 (myUnionRec x (cdr y))))))
+
+;; 8.53
+;; Did some unnecessary list sanitation.
+(defun largestEven (l)
+  "Finds the largest even number in a list of anything."
+  (largestEvenRec (remove-if-not #'numberp l)))
+
+(defun largestEvenRec (l)
+  (cond ((null l) 0)
+	((oddp (car l)) (largestEvenRec (cdr l)))
+	(t (max (car l)
+		(largestEvenRec (cdr l))))))
+
+;; 8.54
+(defun huge (n)
+  "Returns n^n."
+  (hugeRec n n))
+
+(defun hugeRec (i n)
+  (cond ((< i 2) n)
+	(t (* (hugeRec (- i 1) n) n))))
+
+;; 8.55
+;; A recursive function has a stop condition, a general case, and a
+;; continuation step.
+
+;; 8.56
+;; "Wait, why didn't I just cddr?"
+(defun everyOtherOld (l)
+  "Returns a list of every other element in the list."
+  (cond ((null l) nil)
+	(t (append (list (car l)) (everyOtherRec (cdr l))))))
+
+(defun everyOtherRec (l)
+  (cond ((null l) nil)
+	(t (everyOtherOld (cdr l)))))
+
+(defun everyOther (l)
+  "Returns a list of every other element in the list."
+  (if (null l) nil (append (list (car l)) (everyOther (cddr l)))))
+
+;; 8.57
+(defun leftHalf (l)
+  "Returns the first half of a list, or +1 element if odd length."
+  (cond ((null l) nil)
+	((null (cdr l)) l)
+	((evenp (length l)) (leftHalfRec (/ (length l) 2) l))
+	((oddp (length l)) (leftHalfRec (/ (+ 1 (length l)) 2) (append l '(0))))))
+
+(defun leftHalfRec (n l)
+  (cond ((< n 1) nil)
+	(t (append (list (car l)) (leftHalfRec (- n 1) (cdr l))))))
+
+;; 8.58
+;; Almost started implementing quicksort, so I'll back off and do a
+;; rigid interpretation of the assignment here. Book solves this with
+;; #'cons, but this gives the wrong answer.
+(defun mergeLists (x y)
+  "Returns the ordered merged list of two ordered lists of numbers."
+  (cond ((null x) y)
+	((null y) x)
+	((< (car x) (car y)) (append
+			      (list (car x))
+			      (list (car y))
+			      (mergeLists (cdr x) (cdr y))))
+	(t (append (list (car y))
+		   (list (car x))
+		   (mergeLists (cdr x) (cdr y))))))
+
+;; 8.59
+;; First thought is, does n ever become 0?
+(defun altFact (n)
+  (cond ((zerop n) 1)
+	(t (/ (altFact (+ n 1)) (+ n 1)))))
+
+;; Nope, looks like stack gets exhausted for any input other than the base
+;; case. As for the rule it broke: it knows when to stop, and it knows how
+;; to take a step, but each step increases its distance from the stop
+;; condition. Therefore it broke rule 3. Didn't verify equations, but
+;; apparently they are correct according to the book.
